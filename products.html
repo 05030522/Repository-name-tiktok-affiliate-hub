@@ -23,23 +23,59 @@
     <button class="mobile-menu" onclick="toggleMenu()">☰</button>
   </div></header>
 
-  <section class="page-hero"><div class="container">
-    <h1>🏆 Top Products</h1>
-    <p>Best-selling TikTok Shop products this week, ranked by revenue</p>
-  </div></section>
+  <section class="page-hero hero-glow-red">
+    <div class="container">
+      <div class="page-hero-icon">🏆</div>
+      <h1>Top Products</h1>
+      <p>Best-selling TikTok Shop products this week, ranked by revenue</p>
+      <div class="hero-mini-stats">
+        <div class="mini-stat"><span class="mini-num">10</span><span class="mini-label">Products Ranked</span></div>
+        <div class="mini-stat"><span class="mini-num">$50M+</span><span class="mini-label">Total Revenue</span></div>
+        <div class="mini-stat"><span class="mini-num">Weekly</span><span class="mini-label">Updated</span></div>
+      </div>
+    </div>
+  </section>
 
-  <section class="section"><div class="container">
-    <div id="productsTable"></div>
-    <div class="unlock-banner" onclick="showPaywall()">🔒 Unlock full Top 10 with revenue, commission rates, and creator counts → <strong>Go Pro</strong></div>
-  </div></section>
+  <section class="section">
+    <div class="container">
+      <div class="filter-chips">
+        <button class="chip active" onclick="filterProducts('all')">All</button>
+        <button class="chip" onclick="filterProducts('beauty')">Beauty</button>
+        <button class="chip" onclick="filterProducts('fashion')">Fashion</button>
+        <button class="chip" onclick="filterProducts('health')">Health</button>
+        <button class="chip" onclick="filterProducts('tech')">Tech</button>
+        <button class="chip" onclick="filterProducts('home')">Home</button>
+      </div>
+      <div id="productsTable"></div>
+      <div class="unlock-banner" onclick="showPaywall()">
+        🔐 Unlock full Top 10 with revenue, commission rates, and creator counts → <strong>Go Pro</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insight Box -->
+  <section class="section">
+    <div class="container">
+      <div class="insight-box">
+        <div class="insight-icon">💡</div>
+        <div>
+          <h3>This Week's Insight</h3>
+          <p>Beauty products dominate with 3 of the top 5 spots. High-ticket items ($100+) are showing strongest growth — Shark's cordless vacuum jumped +46% with just 18.7K units. Price ≠ volume for top revenue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section section-cta"><div class="container">
     <h2>Want the full picture?</h2>
-    <p>Pro members get all 10 products with detailed analysis every week.</p>
-    <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
+    <p>Pro members get all 10 products with detailed analysis, content tips, and commission data every week.</p>
+    <div class="hero-cta">
+      <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
+      <a href="brands.html" class="btn btn-ghost">View Top Brands →</a>
+    </div>
   </div></section>
 
-  <footer class="footer"><div class="container"><p class="footer-bottom">&copy; 2026 TrendVault. Data estimates via Kalodata.</p></div></footer>
+  <footer class="footer"><div class="container"><p class="footer-bottom">&copy; 2026 TrendVault. Data estimates sourced from market analytics. Not affiliated with TikTok.</p></div></footer>
 
   <div class="modal" id="paywallModal"><div class="modal-content">
     <button class="modal-close" onclick="closePaywall()">&times;</button>

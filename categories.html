@@ -23,23 +23,48 @@
     <button class="mobile-menu" onclick="toggleMenu()">☰</button>
   </div></header>
 
-  <section class="page-hero"><div class="container">
-    <h1>📂 Category Rankings</h1>
-    <p>Which categories are growing? Where's the opportunity?</p>
-  </div></section>
+  <section class="page-hero hero-glow-purple">
+    <div class="container">
+      <div class="page-hero-icon">📂</div>
+      <h1>Category Rankings</h1>
+      <p>Which TikTok Shop categories are growing? Where's the opportunity?</p>
+      <div class="hero-mini-stats">
+        <div class="mini-stat"><span class="mini-num">$930M+</span><span class="mini-label">Total Market</span></div>
+        <div class="mini-stat"><span class="mini-num">62K+</span><span class="mini-label">Active Shops</span></div>
+        <div class="mini-stat"><span class="mini-num">Weekly</span><span class="mini-label">Updated</span></div>
+      </div>
+    </div>
+  </section>
 
-  <section class="section"><div class="container">
-    <div id="categoriesTable"></div>
-    <div class="unlock-banner" onclick="showPaywall()">🔒 Full category analysis with shop counts and revenue per shop → <strong>Go Pro</strong></div>
-  </div></section>
+  <section class="section">
+    <div class="container">
+      <div id="categoriesTable"></div>
+      <div class="unlock-banner" onclick="showPaywall()">🔐 Full category analysis with shop counts and revenue per shop → <strong>Go Pro</strong></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="insight-box insight-purple">
+        <div class="insight-icon">💡</div>
+        <div>
+          <h3>Category Insight</h3>
+          <p>Sports & Outdoor is the fastest-growing L1 category at +5.58%. Nutrition & Wellness has the highest revenue per shop ($32.61K) — fewer shops, bigger opportunity for newcomers. Beauty remains king at $324M but growth is flat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section section-cta"><div class="container">
     <h2>Find the highest-opportunity categories.</h2>
-    <p>Pro members get full category data including revenue per shop and market concentration.</p>
-    <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
+    <p>Pro members get full category data including revenue per shop, market concentration, and growth velocity.</p>
+    <div class="hero-cta">
+      <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
+      <a href="hashtags.html" class="btn btn-ghost">View Hashtags →</a>
+    </div>
   </div></section>
 
-  <footer class="footer"><div class="container"><p class="footer-bottom">&copy; 2026 TrendVault. Data estimates via Kalodata.</p></div></footer>
+  <footer class="footer"><div class="container"><p class="footer-bottom">&copy; 2026 TrendVault. Data estimates sourced from market analytics.</p></div></footer>
 
   <div class="modal" id="paywallModal"><div class="modal-content">
     <button class="modal-close" onclick="closePaywall()">&times;</button>

@@ -235,6 +235,11 @@ body {
 .strategy-icon { font-size: 28px; margin-bottom: 12px; }
 .strategy-card h3 { font-size: 15px; margin-bottom: 8px; font-weight: 700; color: #fff; }
 .strategy-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+.strategy-detail {
+  margin-top: 10px; padding: 10px 12px; background: rgba(255,255,255,0.03);
+  border-radius: 8px; font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.7;
+}
+.strategy-detail strong { color: rgba(255,255,255,0.6); }
 .strategy-tag { display: inline-block; margin-top: 12px; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 .free-tag { background: rgba(34,197,94,0.15); color: #6ee7a0; }
 .pro-tag { background: rgba(254,44,85,0.15); color: #fe2c55; }
@@ -428,6 +433,53 @@ body {
 
 /* ===== Utilities ===== */
 .text-center { text-align: center; }
+
+/* ===== Page Hero Variants ===== */
+.page-hero-icon { font-size: 48px; margin-bottom: 12px; }
+.hero-glow-red {
+  background: radial-gradient(ellipse at 50% 0%, rgba(254,44,85,0.15) 0%, transparent 60%), #0a0a0f;
+}
+.hero-glow-cyan {
+  background: radial-gradient(ellipse at 50% 0%, rgba(37,244,238,0.12) 0%, transparent 60%), #0a0a0f;
+}
+.hero-glow-purple {
+  background: radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 60%), #0a0a0f;
+}
+.hero-glow-green {
+  background: radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.12) 0%, transparent 60%), #0a0a0f;
+}
+.hero-glow-orange {
+  background: radial-gradient(ellipse at 50% 0%, rgba(251,146,60,0.12) 0%, transparent 60%), #0a0a0f;
+}
+.hero-glow-korea {
+  background: radial-gradient(ellipse at 30% 30%, rgba(254,44,85,0.1) 0%, transparent 40%),
+              radial-gradient(ellipse at 70% 60%, rgba(37,244,238,0.08) 0%, transparent 40%), #0a0a0f;
+}
+
+/* Mini Stats in Page Hero */
+.hero-mini-stats { display: flex; justify-content: center; gap: 36px; margin-top: 24px; }
+.mini-stat { display: flex; flex-direction: column; align-items: center; }
+.mini-num { font-size: 22px; font-weight: 800; color: #fff; }
+.mini-label { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+/* ===== Insight Box ===== */
+.insight-box {
+  background: rgba(254,44,85,0.05); border: 1px solid rgba(254,44,85,0.12);
+  border-radius: 14px; padding: 22px; display: flex; gap: 16px; align-items: flex-start;
+}
+.insight-box.insight-cyan { background: rgba(37,244,238,0.04); border-color: rgba(37,244,238,0.12); }
+.insight-box.insight-purple { background: rgba(139,92,246,0.04); border-color: rgba(139,92,246,0.12); }
+.insight-box.insight-green { background: rgba(34,197,94,0.04); border-color: rgba(34,197,94,0.12); }
+.insight-box.insight-orange { background: rgba(251,146,60,0.04); border-color: rgba(251,146,60,0.12); }
+.insight-icon { font-size: 24px; flex-shrink: 0; }
+.insight-box h3 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.insight-box p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .hero-mini-stats { gap: 16px; }
+  .mini-num { font-size: 18px; }
+  .insight-box { flex-direction: column; }
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
