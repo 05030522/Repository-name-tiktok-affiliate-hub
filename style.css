@@ -434,6 +434,20 @@ body {
 /* ===== Utilities ===== */
 .text-center { text-align: center; }
 
+/* ===== Article Styling ===== */
+.tv-article { max-width: 720px; margin: 0 auto; }
+.tv-article h3 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 14px; }
+.tv-article h4 { font-size: 17px; font-weight: 700; color: #25f4ee; margin-top: 24px; margin-bottom: 10px; }
+.tv-article p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 12px; }
+.tv-article strong { color: rgba(255,255,255,0.85); }
+.tv-article em { color: #fe2c55; font-style: normal; font-weight: 600; }
+.tv-article ol, .tv-article ul { padding-left: 20px; margin-bottom: 16px; }
+.tv-article li {
+  font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.8;
+  margin-bottom: 10px; padding-left: 4px;
+}
+.tv-article li strong { color: #fff; }
+
 /* ===== Page Hero Variants ===== */
 .page-hero-icon { font-size: 48px; margin-bottom: 12px; }
 .hero-glow-red {
