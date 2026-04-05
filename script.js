@@ -34,12 +34,15 @@ document.getElementById('paywallModal')?.addEventListener('click', function(e) {
   if (e.target === this) closePaywall();
 });
 
-// ===== Payment Handler =====
+// ===== Payment Handler (Lemon Squeezy) =====
 function handlePayment() {
   const plan = document.querySelector('input[name="plan"]:checked').value;
-  const prices = { monthly: '$15/mo', yearly: '$149/yr', insider: '$29/mo' };
-  // TODO: Integrate Stripe Checkout
-  alert(`You selected: ${plan} (${prices[plan]})\n\nPayment integration coming soon!`);
+  const links = {
+    monthly: 'https://shoptrendinsider.lemonsqueezy.com/checkout/buy/2b9e60f6-1124-4d2d-9e50-2861a28be774',
+    yearly: 'https://shoptrendinsider.lemonsqueezy.com/checkout/buy/3f8736de-7a87-49ea-af15-97e28bc7d7a9',
+    insider: 'https://shoptrendinsider.lemonsqueezy.com/checkout/buy/69866d10-2fac-4f3c-8791-92b9edd53dde'
+  };
+  window.open(links[plan], '_blank');
 }
 
 // ===== Email Signup =====
