@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Rankings — TikTok Shop Insider</title>
+  <meta name="description" content="TikTok Shop category rankings by revenue, growth, and opportunity analysis.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+  <header class="header"><div class="container">
+    <a href="index.html" class="logo"><span class="logo-icon">📊</span><span class="logo-text">TikTok Shop Insider</span></a>
+    <nav class="nav" id="mainNav">
+      <a href="products.html" class="nav-link">Products</a>
+      <a href="brands.html" class="nav-link">Brands</a>
+      <a href="categories.html" class="nav-link active">Categories</a>
+      <a href="hashtags.html" class="nav-link">Hashtags</a>
+      <a href="strategies.html" class="nav-link">Strategy</a>
+      <a href="korea.html" class="nav-link">🇰🇷 Korea</a>
+      <a href="pricing.html" class="nav-link nav-cta">Go Pro</a>
+    </nav>
+    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+  </div></header>
+
+  <section class="page-hero"><div class="container">
+    <h1>📂 Category Rankings</h1>
+    <p>Which categories are growing? Where's the opportunity?</p>
+  </div></section>
+
+  <section class="section"><div class="container">
+    <div id="categoriesTable"></div>
+    <div class="unlock-banner" onclick="showPaywall()">🔒 Full category analysis with shop counts and revenue per shop → <strong>Go Pro</strong></div>
+  </div></section>
+
+  <section class="section section-cta"><div class="container">
+    <h2>Find the highest-opportunity categories.</h2>
+    <p>Pro members get full category data including revenue per shop and market concentration.</p>
+    <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
+  </div></section>
+
+  <footer class="footer"><div class="container"><p class="footer-bottom">&copy; 2026 TikTok Shop Insider. Data estimates via Kalodata.</p></div></footer>
+
+  <div class="modal" id="paywallModal"><div class="modal-content">
+    <button class="modal-close" onclick="closePaywall()">&times;</button>
+    <h2>Unlock Full Rankings</h2><p>All products, brands, categories, and Korea Insider reports.</p>
+    <div class="modal-pricing">
+      <div class="modal-plan"><input type="radio" name="plan" value="monthly" checked id="monthly"><label for="monthly"><strong>Pro — $15/mo</strong><span>Cancel anytime</span></label></div>
+      <div class="modal-plan"><input type="radio" name="plan" value="yearly" id="yearly"><label for="yearly"><strong>Annual — $149/yr</strong><span>2 months free</span></label></div>
+      <div class="modal-plan"><input type="radio" name="plan" value="insider" id="insider"><label for="insider"><strong>Insider — $29/mo</strong><span>Pro + Community</span></label></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="handlePayment()">Start Your Plan</button>
+    <p class="modal-note">7-day money-back guarantee.</p>
+  </div></div>
+
+  <script src="data.js"></script><script src="script.js"></script>
+  <script>renderCategories('categoriesTable');</script>
+</body>
+</html>
