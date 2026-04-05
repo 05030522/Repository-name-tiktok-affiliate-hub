@@ -448,6 +448,16 @@ body {
 }
 .tv-article li strong { color: #fff; }
 
+/* Practice Box (action items) */
+.practice-box {
+  background: rgba(37,244,238,0.05); border-left: 4px solid #25f4ee;
+  padding: 22px 24px; margin: 28px 0; border-radius: 0 12px 12px 0;
+}
+.practice-box h4 { color: #25f4ee; font-size: 16px; margin-bottom: 12px; margin-top: 0; }
+.practice-box ol, .practice-box ul { padding-left: 18px; }
+.practice-box li { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 8px; }
+.practice-box li strong { color: rgba(255,255,255,0.8); }
+
 /* ===== Page Hero Variants ===== */
 .page-hero-icon { font-size: 48px; margin-bottom: 12px; }
 .hero-glow-red {
