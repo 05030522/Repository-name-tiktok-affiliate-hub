@@ -85,6 +85,34 @@ window.addEventListener('scroll', () => {
   header.style.boxShadow = window.scrollY > 10 ? '0 1px 8px rgba(0,0,0,0.06)' : 'none';
 });
 
+// ===== Tab Switching =====
+function switchTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  // Show selected
+  const tab = document.getElementById('tab-' + tabName);
+  if (tab) tab.classList.add('active');
+  // Highlight button
+  event.target.classList.add('active');
+  // Scroll to top of content
+  window.scrollTo({ top: document.querySelector('.tab-nav')?.offsetTop - 64 || 0, behavior: 'smooth' });
+}
+
+// Handle hash-based tab switching (e.g. intelligence.html#tab-korean)
+window.addEventListener('load', () => {
+  const hash = window.location.hash.replace('#', '').replace('tab-', '');
+  if (hash && document.getElementById('tab-' + hash)) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + hash).classList.add('active');
+    // Find matching button
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if (b.textContent.toLowerCase().includes(hash.substring(0, 4))) b.classList.add('active');
+    });
+  }
+});
+
 // ===== FAQ Toggle =====
 function toggleFaq(btn) {
   const answer = btn.nextElementSibling;

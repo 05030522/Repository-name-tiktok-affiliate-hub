@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weekly Intelligence — TikTok Shop Insider</title>
-  <meta name="description" content="This week's trending TikTok Shop products, viral hashtags, proven video strategies, and exclusive Korea Insider reports.">
+  <title>Intelligence Dashboard — TikTok Shop Insider</title>
+  <meta name="description" content="Real-time TikTok Shop rankings: top brands, categories, products, viral hashtags, and Korea Insider reports.">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 </head>
@@ -15,161 +15,95 @@
       <a href="index.html" class="logo"><span class="logo-icon">📊</span><span class="logo-text">TikTok Shop Insider</span></a>
       <nav class="nav" id="mainNav">
         <a href="intelligence.html" class="nav-link active">Intelligence</a>
-        <a href="#korean" class="nav-link">Korea Insider</a>
+        <a href="intelligence.html#tab-korean" class="nav-link">Korea Insider</a>
         <a href="pricing.html" class="nav-link nav-cta">Go Pro</a>
       </nav>
       <button class="mobile-menu" onclick="toggleMenu()">☰</button>
     </div>
   </header>
 
-  <!-- Page Hero -->
   <section class="page-hero">
     <div class="container">
-      <h1>Weekly Intelligence Report</h1>
-      <p>Week of April 1–7, 2026 — Data sourced from TikTok Shop analytics</p>
+      <h1>Intelligence Dashboard</h1>
+      <p>Real data. Updated weekly. Powered by TikTok Shop analytics.</p>
     </div>
   </section>
 
-  <!-- Quick Nav -->
-  <div class="quick-nav">
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
     <div class="container">
-      <a href="#trends" class="qn-link active">Trending Products</a>
-      <a href="#hashtags" class="qn-link">Hashtags</a>
-      <a href="#strategies" class="qn-link">Video Strategy</a>
-      <a href="#korean" class="qn-link">Korea Insider</a>
+      <button class="tab-btn active" onclick="switchTab('products')">🏆 Top Products</button>
+      <button class="tab-btn" onclick="switchTab('brands')">🏢 Top Brands</button>
+      <button class="tab-btn" onclick="switchTab('categories')">📂 Categories</button>
+      <button class="tab-btn" onclick="switchTab('hashtags')">🔥 Hashtags</button>
+      <button class="tab-btn" onclick="switchTab('strategies')">🎬 Video Strategy</button>
+      <button class="tab-btn" onclick="switchTab('korean')">🇰🇷 Korea Insider</button>
     </div>
   </div>
 
-  <!-- Trending Products -->
-  <section id="trends" class="section">
+  <!-- Tab: Top Products -->
+  <section id="tab-products" class="tab-content active section">
     <div class="container">
-      <h2 class="section-title-left">Trending Products — Top 10</h2>
-      <p class="section-sub-left">Ranked by sales velocity and viral momentum this week</p>
-
-      <div class="filter-chips">
-        <button class="chip active" onclick="filterProducts('all')">All</button>
-        <button class="chip" onclick="filterProducts('beauty')">Beauty</button>
-        <button class="chip" onclick="filterProducts('fashion')">Fashion</button>
-        <button class="chip" onclick="filterProducts('health')">Health</button>
-        <button class="chip" onclick="filterProducts('tech')">Tech</button>
-        <button class="chip" onclick="filterProducts('home')">Home</button>
-      </div>
-
-      <div class="product-grid" id="productGrid">
-        <div class="product-card free" data-category="beauty">
-          <div class="rank rank-1">1</div>
-          <div class="product-info">
-            <h3>Vitamin C Glow Serum</h3>
-            <div class="product-meta">
-              <span class="tag tag-beauty">Beauty</span>
-              <span class="sales">125K+ units sold</span>
-              <span class="commission">15–20% commission</span>
-            </div>
-            <p class="product-desc">Dominating TikTok beauty right now. "One-day glow up" videos driving massive impulse purchases. Best-performing format: Before/After with natural lighting.</p>
-            <div class="product-tips"><strong>Winning formats:</strong> Before/After transformation (3s), GRWM routine, "I tried the viral serum"</div>
-          </div>
-        </div>
-
-        <div class="product-card free" data-category="fashion">
-          <div class="rank rank-2">2</div>
-          <div class="product-info">
-            <h3>Mini Crossbody Bag</h3>
-            <div class="product-meta">
-              <span class="tag tag-fashion">Fashion</span>
-              <span class="sales">83K+ units sold</span>
-              <span class="commission">12–18% commission</span>
-            </div>
-            <p class="product-desc">Y2K revival driving this category. Low price point ($10–$20) triggers impulse buys. Multiple colors = higher AOV through bundles.</p>
-            <div class="product-tips"><strong>Winning formats:</strong> OOTD styling, "Under $15?!" price reveal, outfit transition</div>
-          </div>
-        </div>
-
-        <div class="product-card free" data-category="health">
-          <div class="rank rank-3">3</div>
-          <div class="product-info">
-            <h3>Electric Protein Shaker Bottle</h3>
-            <div class="product-meta">
-              <span class="tag tag-health">Health</span>
-              <span class="sales">67K+ units sold</span>
-              <span class="commission">10–15% commission</span>
-            </div>
-            <p class="product-desc">FitTok synergy is real. Electric shakers outperform manual 3:1. Works best embedded naturally in workout routine content.</p>
-            <div class="product-tips"><strong>Winning formats:</strong> Gym routine VLOG, unboxing ASMR, "gym bag essentials"</div>
-          </div>
-        </div>
-
-        <div class="product-card locked" data-category="tech">
-          <div class="rank">4</div>
-          <div class="product-info">
-            <h3 class="blur">Smart LED Strip Lights</h3>
-            <div class="product-meta"><span class="tag tag-tech">Tech</span><span class="sales blur">52K+ sold</span></div>
-            <p class="product-desc blur">Room makeover trend driving sales. High repeat purchase rate and strong commission structure...</p>
-            <div class="lock-overlay" onclick="showPaywall()"><span class="lock-icon">🔒</span><span>Unlock with Pro</span></div>
-          </div>
-        </div>
-
-        <div class="product-card locked" data-category="beauty">
-          <div class="rank">5</div>
-          <div class="product-info">
-            <h3 class="blur">K-Beauty Lip Tint Set (4-pack)</h3>
-            <div class="product-meta"><span class="tag tag-beauty">Beauty</span><span class="sales blur">48K+ sold</span></div>
-            <p class="product-desc blur">Korean beauty wave hitting US TikTok. Color comparison content performs best...</p>
-            <div class="lock-overlay" onclick="showPaywall()"><span class="lock-icon">🔒</span><span>Unlock with Pro</span></div>
-          </div>
-        </div>
-
-        <div class="product-card locked" data-category="home">
-          <div class="rank">6</div>
-          <div class="product-info">
-            <h3 class="blur">Mini Humidifier with Mood Light</h3>
-            <div class="product-meta"><span class="tag tag-home">Home</span><span class="sales blur">41K+ sold</span></div>
-            <p class="product-desc blur">Desk setup essential. Mood lighting feature drives 2x more engagement...</p>
-            <div class="lock-overlay" onclick="showPaywall()"><span class="lock-icon">🔒</span><span>Unlock with Pro</span></div>
-          </div>
-        </div>
-
-        <div class="product-card locked" data-category="all">
-          <div class="rank">7–10</div>
-          <div class="product-info">
-            <h3 class="blur">+ 4 more trending products</h3>
-            <p class="product-desc blur">Fashion accessories, a viral tech gadget, and a surprise category newcomer...</p>
-            <div class="lock-overlay" onclick="showPaywall()"><span class="lock-icon">🔒</span><span>Unlock full Top 10 →</span></div>
-          </div>
-        </div>
+      <h2 class="section-title-left">Top Products — Weekly Ranking</h2>
+      <p class="section-sub-left">Best-selling products on TikTok Shop, ranked by revenue</p>
+      <div id="productsTable"></div>
+      <div class="unlock-banner" onclick="showPaywall()">
+        🔒 Unlock full Top 10 with revenue data, commission rates, and creator counts → <strong>Go Pro</strong>
       </div>
     </div>
   </section>
 
-  <!-- Hashtags -->
-  <section id="hashtags" class="section section-alt">
+  <!-- Tab: Top Brands -->
+  <section id="tab-brands" class="tab-content section">
+    <div class="container">
+      <h2 class="section-title-left">Top Brands — Revenue Ranking</h2>
+      <p class="section-sub-left">Highest-grossing brands on TikTok Shop this period</p>
+      <div id="brandsTable"></div>
+      <div class="unlock-banner" onclick="showPaywall()">
+        🔒 See all brands with affiliate revenue breakdown → <strong>Go Pro</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab: Categories -->
+  <section id="tab-categories" class="tab-content section">
+    <div class="container">
+      <h2 class="section-title-left">Category Rankings</h2>
+      <p class="section-sub-left">Which categories are growing? Where's the opportunity?</p>
+      <div id="categoriesTable"></div>
+      <div class="unlock-banner" onclick="showPaywall()">
+        🔒 Full category analysis with shop counts and revenue per shop → <strong>Go Pro</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab: Hashtags -->
+  <section id="tab-hashtags" class="tab-content section">
     <div class="container">
       <h2 class="section-title-left">Viral Hashtags — Top 30</h2>
-      <p class="section-sub-left">Maximize reach with this week's highest-performing TikTok Shop hashtags</p>
-
+      <p class="section-sub-left">Maximize reach with the highest-performing TikTok Shop hashtags</p>
       <div class="hashtag-grid">
         <div class="hashtag-card free"><span class="hashtag-rank">1</span><span class="hashtag-name">#TikTokMadeMeBuyIt</span><span class="hashtag-views">14.2B views</span></div>
         <div class="hashtag-card free"><span class="hashtag-rank">2</span><span class="hashtag-name">#TikTokShopFinds</span><span class="hashtag-views">8.9B views</span></div>
         <div class="hashtag-card free"><span class="hashtag-rank">3</span><span class="hashtag-name">#UnderBudgetFinds</span><span class="hashtag-views">5.4B views</span></div>
         <div class="hashtag-card free"><span class="hashtag-rank">4</span><span class="hashtag-name">#KBeautySecret</span><span class="hashtag-views">3.8B views</span></div>
         <div class="hashtag-card free"><span class="hashtag-rank">5</span><span class="hashtag-name">#ViralProducts2026</span><span class="hashtag-views">2.9B views</span></div>
-        <div class="hashtag-card locked" onclick="showPaywall()"><span class="hashtag-rank">6–10</span><span class="hashtag-name blur">5 more trending hashtags</span><span class="lock-badge">🔒 PRO</span></div>
-        <div class="hashtag-card locked" onclick="showPaywall()"><span class="hashtag-rank">11–20</span><span class="hashtag-name blur">10 niche category hashtags</span><span class="lock-badge">🔒 PRO</span></div>
-        <div class="hashtag-card locked" onclick="showPaywall()"><span class="hashtag-rank">21–30</span><span class="hashtag-name blur">10 emerging hashtags</span><span class="lock-badge">🔒 PRO</span></div>
+        <div class="hashtag-card locked" onclick="showPaywall()"><span class="hashtag-rank">6–15</span><span class="hashtag-name blur">10 more trending hashtags</span><span class="lock-badge">🔒 PRO</span></div>
+        <div class="hashtag-card locked" onclick="showPaywall()"><span class="hashtag-rank">16–30</span><span class="hashtag-name blur">15 niche + emerging hashtags</span><span class="lock-badge">🔒 PRO</span></div>
       </div>
     </div>
   </section>
 
-  <!-- Video Strategies -->
-  <section id="strategies" class="section">
+  <!-- Tab: Video Strategy -->
+  <section id="tab-strategies" class="tab-content section">
     <div class="container">
       <h2 class="section-title-left">Proven Video Strategies</h2>
       <p class="section-sub-left">Battle-tested content formats that drive real sales</p>
-
       <div class="strategy-grid">
         <div class="strategy-card free">
           <div class="strategy-icon">🎬</div>
           <h3>Before/After Transformation</h3>
-          <p>Show the product impact in under 3 seconds. Works best for beauty and home. Avg. 500K+ views.</p>
+          <p>Show the product impact in under 3 seconds. Best for beauty and home. Avg. 500K+ views.</p>
           <div class="strategy-tag free-tag">Free</div>
         </div>
         <div class="strategy-card free">
@@ -181,7 +115,7 @@
         <div class="strategy-card free">
           <div class="strategy-icon">💰</div>
           <h3>Price Reveal Shock</h3>
-          <p>"This costs HOW much?!" — frame the price as surprisingly low. Triggers impulse buys across all categories.</p>
+          <p>"This costs HOW much?!" — frame the price as surprisingly low. Triggers impulse buys.</p>
           <div class="strategy-tag free-tag">Free</div>
         </div>
         <div class="strategy-card locked" onclick="showPaywall()">
@@ -194,30 +128,29 @@
     </div>
   </section>
 
-  <!-- Korea Insider -->
-  <section id="korean" class="section section-korean">
+  <!-- Tab: Korea Insider -->
+  <section id="tab-korean" class="tab-content section section-korean">
     <div class="container">
       <span class="korean-flag">🇰🇷</span>
       <h2 class="section-title">Korea Insider</h2>
       <p class="section-sub">Trends hit Korea 3–6 months before the US. Intelligence from Korean seller networks unavailable anywhere else in English.</p>
-
       <div class="korean-grid">
         <div class="korean-card free">
           <div class="korean-label">FREE PREVIEW</div>
           <h3>K-Beauty Is About to Explode on US TikTok</h3>
-          <p>Three Korean skincare brands are preparing TikTok Shop US launches in Q2 2026. We tracked their Korean sales data — here's what US sellers should stock up on now. The lead brand did $4.2M on Korean TikTok in March alone.</p>
+          <p>Three Korean skincare brands are preparing TikTok Shop US launches in Q2 2026. We tracked their Korean sales data — the lead brand did $4.2M on Korean TikTok in March alone.</p>
           <a href="#" class="read-more">Read full analysis →</a>
         </div>
         <div class="korean-card locked" onclick="showPaywall()">
           <div class="korean-label pro">PRO ONLY</div>
-          <h3 class="blur">The Next Viral K-Food Product (Hint: It's Not Buldak)</h3>
+          <h3 class="blur">The Next Viral K-Food Product</h3>
           <p class="blur">A snack brand that did $2M in Korean TikTok sales last month is entering the US market...</p>
           <div class="lock-overlay"><span class="lock-icon">🔒</span><span>Unlock Korea Insider</span></div>
         </div>
         <div class="korean-card locked" onclick="showPaywall()">
           <div class="korean-label pro">PRO ONLY</div>
           <h3 class="blur">Korean Supplier Directory: 50 Verified Contacts</h3>
-          <p class="blur">Direct sourcing contacts for K-beauty, K-fashion, and K-food trending products...</p>
+          <p class="blur">Direct sourcing for K-beauty, K-fashion, K-food trending products...</p>
           <div class="lock-overlay"><span class="lock-icon">🔒</span><span>Unlock Korea Insider</span></div>
         </div>
       </div>
@@ -228,7 +161,7 @@
   <section class="section section-cta">
     <div class="container">
       <h2>Ready to sell smarter?</h2>
-      <p>Join thousands of TikTok Shop sellers getting weekly intelligence.</p>
+      <p>Get the full dashboard with all rankings, analysis, and Korea Insider reports.</p>
       <div class="hero-cta">
         <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
         <a href="index.html" class="btn btn-ghost">Back to Home</a>
@@ -238,32 +171,19 @@
 
   <footer class="footer">
     <div class="container footer-grid">
-      <div>
-        <a href="index.html" class="logo" style="margin-bottom:12px"><span class="logo-icon">📊</span><span class="logo-text">TikTok Shop Insider</span></a>
-        <p class="footer-desc">Data-driven intelligence for TikTok Shop sellers.</p>
-      </div>
-      <div>
-        <h4>Content</h4>
-        <a href="intelligence.html">Trending Products</a>
-        <a href="intelligence.html#hashtags">Hashtags</a>
-        <a href="intelligence.html#korean">Korea Insider</a>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <a href="pricing.html">Pricing</a>
-        <a href="#">About</a>
-        <a href="#">Privacy Policy</a>
-      </div>
+      <div><a href="index.html" class="logo" style="margin-bottom:12px"><span class="logo-icon">📊</span><span class="logo-text">TikTok Shop Insider</span></a><p class="footer-desc">Data-driven intelligence for TikTok Shop sellers.</p></div>
+      <div><h4>Dashboard</h4><a href="intelligence.html">Top Products</a><a href="intelligence.html">Top Brands</a><a href="intelligence.html">Categories</a></div>
+      <div><h4>Company</h4><a href="pricing.html">Pricing</a><a href="#">About</a><a href="#">Privacy Policy</a></div>
     </div>
-    <div class="container"><p class="footer-bottom">&copy; 2026 TikTok Shop Insider. Not affiliated with TikTok or ByteDance.</p></div>
+    <div class="container"><p class="footer-bottom">&copy; 2026 TikTok Shop Insider. Not affiliated with TikTok or ByteDance. Data estimates via Kalodata.</p></div>
   </footer>
 
   <!-- Paywall Modal -->
   <div class="modal" id="paywallModal">
     <div class="modal-content">
       <button class="modal-close" onclick="closePaywall()">&times;</button>
-      <h2>Unlock Full Intelligence</h2>
-      <p>Get access to all trending products, hashtag data, Korea Insider reports, and advanced strategies.</p>
+      <h2>Unlock Full Dashboard</h2>
+      <p>All rankings, revenue data, Korea Insider reports, and advanced strategies.</p>
       <div class="modal-pricing">
         <div class="modal-plan"><input type="radio" name="plan" value="monthly" checked id="monthly"><label for="monthly"><strong>Pro Monthly — $15/mo</strong><span>Cancel anytime</span></label></div>
         <div class="modal-plan"><input type="radio" name="plan" value="yearly" id="yearly"><label for="yearly"><strong>Pro Annual — $149/yr</strong><span>Save $31 (2 months free)</span></label></div>
@@ -274,6 +194,13 @@
     </div>
   </div>
 
+  <script src="data.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Render data tables on page load
+    renderProducts('productsTable');
+    renderBrands('brandsTable');
+    renderCategories('categoriesTable');
+  </script>
 </body>
 </html>
