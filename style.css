@@ -317,4 +317,108 @@ body {
   .section-title { font-size: 24px; }
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }
   .korean-grid { grid-template-columns: 1fr; }
+  .comparison-table-wrap { overflow-x: auto; }
+  .quick-nav .container { gap: 16px; }
 }
+
+/* ===== Multi-Page Additions ===== */
+
+/* Page Hero (sub-pages) */
+.page-hero {
+  padding: 100px 0 40px;
+  background: #1a1a2e; color: #fff; text-align: center;
+}
+.page-hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
+.page-hero p { color: rgba(255,255,255,0.5); font-size: 15px; }
+
+/* Quick Nav (sticky sub-nav) */
+.quick-nav {
+  position: sticky; top: 64px; z-index: 50;
+  background: #fff; border-bottom: 1px solid #eee;
+}
+.quick-nav .container {
+  display: flex; gap: 24px; padding-top: 12px; padding-bottom: 12px;
+  overflow-x: auto;
+}
+.qn-link {
+  font-size: 14px; font-weight: 500; color: #888; text-decoration: none;
+  white-space: nowrap; padding-bottom: 4px;
+  border-bottom: 2px solid transparent; transition: all 0.2s;
+}
+.qn-link:hover, .qn-link.active { color: #fe2c55; border-bottom-color: #fe2c55; }
+
+/* Left-aligned section titles */
+.section-title-left { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+.section-sub-left { color: #888; font-size: 14px; margin-bottom: 28px; }
+
+/* Highlight Grid (landing page) */
+.highlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.highlight-card {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: #fff; border: 1px solid #eee; border-radius: 14px; padding: 20px;
+  transition: all 0.2s;
+}
+.highlight-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+.highlight-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.highlight-card p { font-size: 13px; color: #666; margin-top: 6px; line-height: 1.5; }
+
+/* Hashtag Row (landing page) */
+.hashtag-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.hashtag-pill {
+  background: #1a1a2e; color: #fff; padding: 10px 20px; border-radius: 30px;
+  font-size: 14px; font-weight: 600;
+}
+.hashtag-pill span { color: #25f4ee; margin-left: 6px; font-size: 12px; }
+.locked-pill {
+  background: rgba(254,44,85,0.1); color: #fe2c55; cursor: pointer;
+  border: 1px solid rgba(254,44,85,0.2);
+}
+.locked-pill:hover { background: rgba(254,44,85,0.15); }
+
+/* Pricing Mini (landing page) */
+.pricing-mini { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; max-width: 800px; margin: 0 auto; }
+.pricing-mini-card {
+  background: #fff; border: 2px solid #eee; border-radius: 14px;
+  padding: 24px; text-align: center; position: relative;
+}
+.pricing-mini-card.featured { border-color: #fe2c55; }
+.pricing-mini-card p { font-size: 13px; color: #888; margin-top: 8px; }
+
+/* Comparison Table */
+.comparison-table-wrap { overflow-x: auto; }
+.comparison-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+  background: #fff; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+.comparison-table th, .comparison-table td {
+  padding: 12px 18px; text-align: center; border-bottom: 1px solid #f0f0f0;
+}
+.comparison-table th { background: #f8f8fa; font-weight: 700; font-size: 13px; }
+.comparison-table td:first-child, .comparison-table th:first-child { text-align: left; font-weight: 500; }
+.highlight-col { background: rgba(254,44,85,0.04); }
+.comparison-table th.highlight-col { background: rgba(254,44,85,0.08); color: #fe2c55; }
+
+/* FAQ */
+.faq-list { display: flex; flex-direction: column; gap: 8px; }
+.faq-item { border: 1px solid #eee; border-radius: 10px; overflow: hidden; }
+.faq-q {
+  width: 100%; padding: 16px 20px; background: #fff; border: none;
+  font-size: 15px; font-weight: 600; text-align: left; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background 0.2s;
+}
+.faq-q:hover { background: #fafafa; }
+.faq-q span { font-size: 20px; color: #888; transition: transform 0.2s; }
+.faq-q.open span { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 14px; color: #666; line-height: 1.7; padding: 0 20px;
+}
+.faq-a.open { max-height: 300px; padding: 0 20px 16px; }
+
+/* Text center util */
+.text-center { text-align: center; }
+
+/* Active nav link */
+.nav-link.active { color: #fe2c55; }
