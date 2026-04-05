@@ -1,33 +1,23 @@
-// ===== Mobile Menu Toggle =====
+// ===== Mobile Menu =====
 function toggleMenu() {
-  const nav = document.querySelector('.nav');
-  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-  if (nav.style.display === 'flex') {
-    nav.style.flexDirection = 'column';
-    nav.style.position = 'absolute';
-    nav.style.top = '64px';
-    nav.style.left = '0';
-    nav.style.right = '0';
-    nav.style.background = '#fff';
-    nav.style.padding = '16px 20px';
-    nav.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+  const nav = document.getElementById('mainNav');
+  if (nav.classList.contains('nav-open')) {
+    nav.classList.remove('nav-open');
+    nav.style.cssText = '';
+  } else {
+    nav.classList.add('nav-open');
+    nav.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:#fff;padding:16px 20px;box-shadow:0 4px 12px rgba(0,0,0,0.1);gap:12px;';
   }
 }
 
 // ===== Product Filter =====
 function filterProducts(category) {
   const cards = document.querySelectorAll('.product-card');
-  const chips = document.querySelectorAll('.chip');
-
-  chips.forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   event.target.classList.add('active');
-
   cards.forEach(card => {
-    if (category === 'all' || card.dataset.category === category) {
-      card.style.display = 'flex';
-    } else {
-      card.style.display = 'none';
-    }
+    const cat = card.dataset.category;
+    card.style.display = (category === 'all' || cat === category || cat === 'all') ? 'flex' : 'none';
   });
 }
 
@@ -36,13 +26,10 @@ function showPaywall() {
   document.getElementById('paywallModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
-
 function closePaywall() {
   document.getElementById('paywallModal').classList.remove('active');
   document.body.style.overflow = '';
 }
-
-// Close modal on backdrop click
 document.getElementById('paywallModal')?.addEventListener('click', function(e) {
   if (e.target === this) closePaywall();
 });
@@ -50,24 +37,29 @@ document.getElementById('paywallModal')?.addEventListener('click', function(e) {
 // ===== Payment Handler =====
 function handlePayment() {
   const plan = document.querySelector('input[name="plan"]:checked').value;
-  const price = plan === 'monthly' ? '9,900' : '79,000';
-
-  // TODO: 실제 결제 연동 (Stripe, Toss Payments 등)
-  alert(`${plan === 'monthly' ? '월간' : '연간'} PRO 구독 (₩${price})\n\n결제 시스템 준비 중입니다.\n곧 오픈 예정!`);
+  const prices = { monthly: '$15/mo', yearly: '$149/yr', insider: '$29/mo' };
+  // TODO: Integrate Stripe Checkout
+  alert(`You selected: ${plan} (${prices[plan]})\n\nPayment integration coming soon!`);
 }
 
-// ===== Locked Content Click → Show Paywall =====
+// ===== Email Signup =====
+function handleEmailSubmit(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailInput').value;
+  // TODO: Connect to email service (Ghost, Beehiiv, ConvertKit, etc.)
+  alert(`Thanks for subscribing! We'll send weekly insights to ${email}`);
+  document.getElementById('emailInput').value = '';
+}
+
+// ===== Lock overlay clicks =====
 document.querySelectorAll('.lock-overlay').forEach(el => {
-  el.addEventListener('click', showPaywall);
-});
-document.querySelectorAll('.hashtag-card.locked').forEach(el => {
-  el.addEventListener('click', showPaywall);
-});
-document.querySelectorAll('.strategy-card.locked').forEach(el => {
-  el.addEventListener('click', showPaywall);
+  el.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showPaywall();
+  });
 });
 
-// ===== Smooth scroll for nav links =====
+// ===== Smooth scroll =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
@@ -76,19 +68,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     // Close mobile menu
-    const nav = document.querySelector('.nav');
+    const nav = document.getElementById('mainNav');
     if (window.innerWidth <= 768) {
-      nav.style.display = 'none';
+      nav.classList.remove('nav-open');
+      nav.style.cssText = '';
     }
   });
 });
 
-// ===== Header scroll effect =====
+// ===== Header scroll shadow =====
 window.addEventListener('scroll', () => {
   const header = document.querySelector('.header');
-  if (window.scrollY > 10) {
-    header.style.boxShadow = '0 2px 12px rgba(0,0,0,0.08)';
-  } else {
-    header.style.boxShadow = 'none';
-  }
+  header.style.boxShadow = window.scrollY > 10 ? '0 1px 8px rgba(0,0,0,0.06)' : 'none';
 });
