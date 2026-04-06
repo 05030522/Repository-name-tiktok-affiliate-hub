@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — TrendVault</title>
+  <meta name="description" content="Get in touch with the TrendVault team. Questions about plans, partnerships, or feedback.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo"><span class="logo-icon">🔐</span><span class="logo-text">TrendVault</span></a>
+      <nav class="nav" id="mainNav">
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="brands.html" class="nav-link">Brands</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="hashtags.html" class="nav-link">Hashtags</a>
+        <a href="strategies.html" class="nav-link">Strategy</a>
+        <a href="korea.html" class="nav-link">🇰🇷 Korea</a>
+        <a href="pricing.html" class="nav-link nav-cta">Go Pro</a>
+      </nav>
+      <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+    </div>
+  </header>
+
+  <section class="page-hero"><div class="container">
+    <h1>Contact Us</h1>
+    <p>Have a question, partnership inquiry, or feedback? We'd love to hear from you.</p>
+  </div></section>
+
+  <section class="section"><div class="container" style="max-width:640px">
+
+    <div class="korea-why-grid" style="grid-template-columns:1fr 1fr;margin-bottom:48px">
+      <div class="korea-why-card">
+        <div class="korea-why-num" style="font-size:28px">📧</div>
+        <h3>Email</h3>
+        <p><a href="mailto:hello@trendvault.shop" style="color:#25f4ee">hello@trendvault.shop</a></p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5)">We reply within 24 hours</p>
+      </div>
+      <div class="korea-why-card">
+        <div class="korea-why-num" style="font-size:28px">💬</div>
+        <h3>Discord</h3>
+        <p style="color:rgba(255,255,255,0.7)">Insider members get access to our private Discord community</p>
+        <a href="pricing.html" style="color:#25f4ee;font-size:14px">Join Insider</a>
+      </div>
+    </div>
+
+    <h2 class="section-title-left">Send a Message</h2>
+    <form class="contact-form" onsubmit="handleContactSubmit(event)" style="display:flex;flex-direction:column;gap:16px">
+      <input type="text" name="name" placeholder="Your name" required style="padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:15px">
+      <input type="email" name="email" placeholder="Your email" required style="padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:15px">
+      <select name="topic" style="padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);font-size:15px">
+        <option value="general">General Question</option>
+        <option value="billing">Billing & Subscriptions</option>
+        <option value="partnership">Partnership Inquiry</option>
+        <option value="feedback">Feedback</option>
+        <option value="bug">Report a Bug</option>
+      </select>
+      <textarea name="message" placeholder="Your message" rows="5" required style="padding:14px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:15px;resize:vertical"></textarea>
+      <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send Message</button>
+    </form>
+
+    <div style="margin-top:48px;padding:24px;background:rgba(255,255,255,0.04);border-radius:12px;border:1px solid rgba(255,255,255,0.08)">
+      <h3 style="margin-bottom:12px;font-size:16px">FAQ Before You Ask</h3>
+      <ul style="font-size:14px;line-height:2;color:rgba(255,255,255,0.6);padding-left:18px">
+        <li><strong style="color:rgba(255,255,255,0.8)">Billing issues?</strong> Manage your subscription at <a href="https://shoptrendinsider.lemonsqueezy.com/billing" target="_blank" style="color:#25f4ee">Lemon Squeezy billing portal</a></li>
+        <li><strong style="color:rgba(255,255,255,0.8)">Want a refund?</strong> We offer a 7-day money-back guarantee, no questions asked</li>
+        <li><strong style="color:rgba(255,255,255,0.8)">Data question?</strong> Our analytics are powered by Kalodata and updated weekly</li>
+      </ul>
+    </div>
+  </div></section>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="index.html" class="logo" style="margin-bottom:12px"><span class="logo-icon">🔐</span><span class="logo-text">TrendVault</span></a>
+        <p class="footer-desc">Data-driven intelligence for TikTok Shop sellers. Built by brand operators, for brand operators.</p>
+      </div>
+      <div>
+        <h4>Content</h4>
+        <a href="intelligence.html">Trending Products</a>
+        <a href="intelligence.html#hashtags">Viral Hashtags</a>
+        <a href="intelligence.html#korean">Korea Trends</a>
+        <a href="intelligence.html#strategies">Video Strategy</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="container"><p class="footer-bottom">&copy; 2026 TrendVault. Not affiliated with TikTok or ByteDance.</p></div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

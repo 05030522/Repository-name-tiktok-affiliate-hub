@@ -45,13 +45,107 @@ function handlePayment() {
   window.open(links[plan], '_blank');
 }
 
-// ===== Email Signup =====
+// ===== Email Signup (Google Sheets) =====
+// HOW TO SET UP:
+// 1. Create a new Google Sheet
+// 2. Go to Extensions > Apps Script
+// 3. Paste the code from google-apps-script.js in this repo
+// 4. Click Deploy > New deployment > Web app
+//    - Execute as: Me
+//    - Who has access: Anyone
+// 5. Copy the deployment URL and paste it below
+const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
 function handleEmailSubmit(e) {
   e.preventDefault();
-  const email = document.getElementById('emailInput').value;
-  // TODO: Connect to email service (Ghost, Beehiiv, ConvertKit, etc.)
-  alert(`Thanks for subscribing! We'll send weekly insights to ${email}`);
-  document.getElementById('emailInput').value = '';
+  const emailInput = document.getElementById('emailInput');
+  const email = emailInput.value;
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
+  // Show loading state
+  submitBtn.textContent = 'Subscribing...';
+  submitBtn.disabled = true;
+
+  // If Google Sheets URL is not configured, store locally and show success
+  if (GOOGLE_SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    // Fallback: store in localStorage until Google Sheets is connected
+    const subscribers = JSON.parse(localStorage.getItem('trendvault_subscribers') || '[]');
+    subscribers.push({ email: email, date: new Date().toISOString(), source: window.location.pathname });
+    localStorage.setItem('trendvault_subscribers', JSON.stringify(subscribers));
+    submitBtn.textContent = 'Subscribed!';
+    emailInput.value = '';
+    setTimeout(() => { submitBtn.textContent = originalText; submitBtn.disabled = false; }, 2000);
+    return;
+  }
+
+  // Send to Google Sheets via Apps Script
+  fetch(GOOGLE_SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      date: new Date().toISOString(),
+      source: window.location.pathname
+    })
+  })
+  .then(() => {
+    submitBtn.textContent = 'Subscribed!';
+    emailInput.value = '';
+    setTimeout(() => { submitBtn.textContent = originalText; submitBtn.disabled = false; }, 2000);
+  })
+  .catch(() => {
+    submitBtn.textContent = 'Error — try again';
+    submitBtn.disabled = false;
+    setTimeout(() => { submitBtn.textContent = originalText; }, 2000);
+  });
+}
+
+// ===== Contact Form =====
+function handleContactSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    topic: form.topic.value,
+    message: form.message.value,
+    date: new Date().toISOString()
+  };
+
+  submitBtn.textContent = 'Sending...';
+  submitBtn.disabled = true;
+
+  if (GOOGLE_SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    // Fallback: store locally
+    const messages = JSON.parse(localStorage.getItem('trendvault_contacts') || '[]');
+    messages.push(data);
+    localStorage.setItem('trendvault_contacts', JSON.stringify(messages));
+    submitBtn.textContent = 'Message Sent!';
+    form.reset();
+    setTimeout(() => { submitBtn.textContent = originalText; submitBtn.disabled = false; }, 2000);
+    return;
+  }
+
+  fetch(GOOGLE_SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'contact', ...data })
+  })
+  .then(() => {
+    submitBtn.textContent = 'Message Sent!';
+    form.reset();
+    setTimeout(() => { submitBtn.textContent = originalText; submitBtn.disabled = false; }, 2000);
+  })
+  .catch(() => {
+    submitBtn.textContent = 'Error — try again';
+    submitBtn.disabled = false;
+    setTimeout(() => { submitBtn.textContent = originalText; }, 2000);
+  });
 }
 
 // ===== Lock overlay clicks =====

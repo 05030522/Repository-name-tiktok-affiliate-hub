@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Intelligence Dashboard — TrendVault</title>
-  <meta name="description" content="Real-time TikTok Shop rankings: top brands, categories, products, viral hashtags, and Korea Insider reports.">
+  <meta name="description" content="Real-time TikTok Shop rankings: top brands, categories, products, viral hashtags, and Korea Trends reports.">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
 </head>
@@ -14,8 +14,12 @@
     <div class="container">
       <a href="index.html" class="logo"><span class="logo-icon">🔐</span><span class="logo-text">TrendVault</span></a>
       <nav class="nav" id="mainNav">
-        <a href="intelligence.html" class="nav-link active">Intelligence</a>
-        <a href="intelligence.html#tab-korean" class="nav-link">Korea Insider</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="brands.html" class="nav-link">Brands</a>
+        <a href="categories.html" class="nav-link">Categories</a>
+        <a href="hashtags.html" class="nav-link">Hashtags</a>
+        <a href="strategies.html" class="nav-link">Strategy</a>
+        <a href="korea.html" class="nav-link">🇰🇷 Korea</a>
         <a href="pricing.html" class="nav-link nav-cta">Go Pro</a>
       </nav>
       <button class="mobile-menu" onclick="toggleMenu()">☰</button>
@@ -37,7 +41,7 @@
       <button class="tab-btn" onclick="switchTab('categories')">📂 Categories</button>
       <button class="tab-btn" onclick="switchTab('hashtags')">🔥 Hashtags</button>
       <button class="tab-btn" onclick="switchTab('strategies')">🎬 Video Strategy</button>
-      <button class="tab-btn" onclick="switchTab('korean')">🇰🇷 Korea Insider</button>
+      <button class="tab-btn" onclick="switchTab('korean')">🇰🇷 Korea Trends</button>
     </div>
   </div>
 
@@ -128,30 +132,30 @@
     </div>
   </section>
 
-  <!-- Tab: Korea Insider -->
+  <!-- Tab: Korea Trends -->
   <section id="tab-korean" class="tab-content section section-korean">
     <div class="container">
       <span class="korean-flag">🇰🇷</span>
-      <h2 class="section-title">Korea Insider</h2>
-      <p class="section-sub">Trends hit Korea 3–6 months before the US. Intelligence from Korean seller networks unavailable anywhere else in English.</p>
+      <h2 class="section-title">Korea Trends</h2>
+      <p class="section-sub">Trends hit Korea 3–6 months before the US. Our team tracks Korean seller networks to give you data unavailable anywhere else in English.</p>
       <div class="korean-grid">
         <div class="korean-card free">
           <div class="korean-label">FREE PREVIEW</div>
           <h3>K-Beauty Is About to Explode on US TikTok</h3>
           <p>Three Korean skincare brands are preparing TikTok Shop US launches in Q2 2026. We tracked their Korean sales data — the lead brand did $4.2M on Korean TikTok in March alone.</p>
-          <a href="#" class="read-more">Read full analysis →</a>
+          <a href="korea.html" class="read-more">Read full analysis →</a>
         </div>
         <div class="korean-card locked" onclick="showPaywall()">
           <div class="korean-label pro">PRO ONLY</div>
           <h3 class="blur">The Next Viral K-Food Product</h3>
           <p class="blur">A snack brand that did $2M in Korean TikTok sales last month is entering the US market...</p>
-          <div class="lock-overlay"><span class="lock-icon">🔒</span><span>Unlock Korea Insider</span></div>
+          <div class="lock-overlay"><span class="lock-icon">🔒</span><span>Unlock Korea Trends</span></div>
         </div>
         <div class="korean-card locked" onclick="showPaywall()">
           <div class="korean-label pro">PRO ONLY</div>
           <h3 class="blur">Korean Supplier Directory: 50 Verified Contacts</h3>
           <p class="blur">Direct sourcing for K-beauty, K-fashion, K-food trending products...</p>
-          <div class="lock-overlay"><span class="lock-icon">🔒</span><span>Unlock Korea Insider</span></div>
+          <div class="lock-overlay"><span class="lock-icon">🔒</span><span>Unlock Korea Trends</span></div>
         </div>
       </div>
     </div>
@@ -161,7 +165,7 @@
   <section class="section section-cta">
     <div class="container">
       <h2>Ready to sell smarter?</h2>
-      <p>Get the full dashboard with all rankings, analysis, and Korea Insider reports.</p>
+      <p>Get the full dashboard with all rankings, analysis, and Korea Trends reports.</p>
       <div class="hero-cta">
         <a href="pricing.html" class="btn btn-primary">Start Pro — $15/mo</a>
         <a href="index.html" class="btn btn-ghost">Back to Home</a>
@@ -172,8 +176,8 @@
   <footer class="footer">
     <div class="container footer-grid">
       <div><a href="index.html" class="logo" style="margin-bottom:12px"><span class="logo-icon">🔐</span><span class="logo-text">TrendVault</span></a><p class="footer-desc">Data-driven intelligence for TikTok Shop sellers.</p></div>
-      <div><h4>Dashboard</h4><a href="intelligence.html">Top Products</a><a href="intelligence.html">Top Brands</a><a href="intelligence.html">Categories</a></div>
-      <div><h4>Company</h4><a href="pricing.html">Pricing</a><a href="#">About</a><a href="#">Privacy Policy</a></div>
+      <div><h4>Dashboard</h4><a href="intelligence.html#products">Top Products</a><a href="intelligence.html#brands">Top Brands</a><a href="intelligence.html#categories">Categories</a></div>
+      <div><h4>Company</h4><a href="pricing.html">Pricing</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
     </div>
     <div class="container"><p class="footer-bottom">&copy; 2026 TrendVault. Not affiliated with TikTok or ByteDance. Data estimates via Kalodata.</p></div>
   </footer>
@@ -183,14 +187,14 @@
     <div class="modal-content">
       <button class="modal-close" onclick="closePaywall()">&times;</button>
       <h2>Unlock Full Dashboard</h2>
-      <p>All rankings, revenue data, Korea Insider reports, and advanced strategies.</p>
+      <p>All rankings, revenue data, Korea Trends reports, and advanced strategies.</p>
       <div class="modal-pricing">
         <div class="modal-plan"><input type="radio" name="plan" value="monthly" checked id="monthly"><label for="monthly"><strong>Pro Monthly — $15/mo</strong><span>Cancel anytime</span></label></div>
         <div class="modal-plan"><input type="radio" name="plan" value="yearly" id="yearly"><label for="yearly"><strong>Pro Annual — $149/yr</strong><span>Save $31 (2 months free)</span></label></div>
         <div class="modal-plan"><input type="radio" name="plan" value="insider" id="insider"><label for="insider"><strong>Insider — $29/mo</strong><span>Pro + Community + Consulting</span></label></div>
       </div>
       <button class="btn btn-primary btn-full" onclick="handlePayment()">Start Your Plan</button>
-      <p class="modal-note">Secure payment via Stripe. 7-day money-back guarantee.</p>
+      <p class="modal-note">Secure payment via Lemon Squeezy. 7-day money-back guarantee.</p>
     </div>
   </div>
 
