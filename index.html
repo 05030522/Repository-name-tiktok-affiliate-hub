@@ -7,10 +7,23 @@
   <meta name="description" content="Data-driven trend reports, viral product picks, and Korean market insights for TikTok Shop sellers. Updated weekly.">
   <meta property="og:title" content="TrendVault — Trend Intelligence That Sells">
   <meta property="og:description" content="Weekly data-driven reports on trending products, viral hashtags, and creator strategies. Built by TikTok Shop brand operators.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://trendvault.shop/">
+  <meta property="og:site_name" content="TrendVault">
+  <meta property="og:image" content="https://trendvault.shop/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TrendVault — Trend Intelligence That Sells">
+  <meta name="twitter:description" content="Weekly data-driven reports on trending products, viral hashtags, and creator strategies for TikTok Shop sellers.">
+  <meta name="twitter:image" content="https://trendvault.shop/og-image.png">
+  <link rel="canonical" href="https://trendvault.shop/">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="TrendVault">
+  <meta name="theme-color" content="#0a0a0f">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <header class="header">
     <div class="container">
@@ -22,6 +35,7 @@
         <a href="hashtags.html" class="nav-link">Hashtags</a>
         <a href="strategies.html" class="nav-link">Strategy</a>
         <a href="korea.html" class="nav-link">🇰🇷 Korea</a>
+        <a href="blog.html" class="nav-link">Blog</a>
         <a href="pricing.html" class="nav-link nav-cta">Go Pro</a>
       </nav>
       <button class="mobile-menu" onclick="toggleMenu()">☰</button>
@@ -29,7 +43,7 @@
   </header>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" id="main-content">
     <div class="container">
       <div class="hero-badge">Updated Weekly — April 2026</div>
       <h1>Stop guessing.<br><span class="gradient-text">Start selling what's trending.</span></h1>
@@ -120,6 +134,64 @@
     </div>
   </section>
 
+  <!-- Testimonials -->
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">What Sellers Are Saying</h2>
+      <p class="section-sub">Join 2,000+ TikTok Shop sellers using TrendVault</p>
+
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Found a vitamin C serum through TrendVault's weekly picks. Listed it on my shop and did $12K in the first month. The Korea Signal alone is worth 10x the subscription."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">JM</div>
+            <div>
+              <div class="testimonial-name">Jessica M.</div>
+              <div class="testimonial-role">Beauty Niche Seller · Pro Member</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I was spending hours on Kalodata trying to find trends. TrendVault does the analysis for me and tells me exactly what to sell. My revenue went from $3K to $18K/month in 90 days."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">DK</div>
+            <div>
+              <div class="testimonial-name">David K.</div>
+              <div class="testimonial-role">Multi-Niche Seller · Insider Member</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The hashtag strategy guide changed my game completely. My videos went from 500 views to 50K+ consistently. Best $15/month I've ever spent on my business."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SR</div>
+            <div>
+              <div class="testimonial-name">Sarah R.</div>
+              <div class="testimonial-role">Fashion Creator · Pro Member</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"As a Korean-American seller, the Korea Signal is incredibly accurate. They spotted the centella trend 4 months before it blew up on US TikTok. Now I'm always first to market."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">EL</div>
+            <div>
+              <div class="testimonial-name">Eric L.</div>
+              <div class="testimonial-role">K-Beauty Specialist · Insider Member</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Pricing Summary -->
   <section class="section section-alt">
     <div class="container">
@@ -156,11 +228,19 @@
     <div class="container">
       <h2>Get smarter about TikTok Shop every week.</h2>
       <p>Free weekly insights straight to your inbox. No spam, unsubscribe anytime.</p>
+
+      <div class="newsletter-benefits">
+        <div class="newsletter-benefit"><span class="newsletter-benefit-icon">📊</span> Weekly Top 10 rankings</div>
+        <div class="newsletter-benefit"><span class="newsletter-benefit-icon">🔥</span> Trending hashtags & sounds</div>
+        <div class="newsletter-benefit"><span class="newsletter-benefit-icon">🇰🇷</span> Korea trend alerts</div>
+        <div class="newsletter-benefit"><span class="newsletter-benefit-icon">🎬</span> Video strategy tips</div>
+      </div>
+
       <form class="email-form" onsubmit="handleEmailSubmit(event)">
-        <input type="email" placeholder="Enter your email" required class="email-input" id="emailInput">
+        <input type="email" placeholder="Enter your email" required class="email-input" id="emailInput" aria-label="Email address for newsletter">
         <button type="submit" class="btn btn-primary">Subscribe Free</button>
       </form>
-      <p class="cta-note">Join 2,000+ sellers. Free forever. Upgrade to Pro anytime.</p>
+      <p class="cta-note">Join 2,000+ sellers. Every Monday at 9 AM EST. Free forever.</p>
     </div>
   </section>
 

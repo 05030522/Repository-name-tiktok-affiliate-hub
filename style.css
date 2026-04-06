@@ -505,6 +505,119 @@ body {
   .insight-box { flex-direction: column; }
 }
 
+/* ===== Blog Cards ===== */
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.blog-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px; padding: 24px; transition: all 0.2s; display: flex; flex-direction: column;
+}
+.blog-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+.blog-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.blog-date { font-size: 12px; color: rgba(255,255,255,0.3); }
+.blog-tag { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+.blog-tag-strategy { background: rgba(37,244,238,0.15); color: #25f4ee; }
+.blog-tag-korea { background: rgba(254,44,85,0.15); color: #fe6b8a; }
+.blog-tag-content { background: rgba(139,92,246,0.15); color: #a78bfa; }
+.blog-tag-data { background: rgba(251,146,60,0.15); color: #fdba74; }
+.blog-tag-growth { background: rgba(34,197,94,0.15); color: #6ee7a0; }
+.blog-card h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; line-height: 1.4; }
+.blog-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; flex: 1; }
+.blog-card .read-more { margin-top: 14px; }
+
+/* ===== Testimonials ===== */
+.testimonial-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.testimonial-card {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px; padding: 24px; transition: all 0.2s;
+}
+.testimonial-card:hover { border-color: rgba(255,255,255,0.12); }
+.testimonial-stars { color: #fbbf24; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+.testimonial-text { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 10px; }
+.testimonial-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #fe2c55, #25f4ee);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.testimonial-name { font-size: 13px; font-weight: 600; color: #fff; }
+.testimonial-role { font-size: 11px; color: rgba(255,255,255,0.3); }
+
+/* ===== Toast Notifications ===== */
+.tv-toast {
+  position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%);
+  padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px; z-index: 1000;
+  transition: bottom 0.3s ease; max-width: 90%; white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.tv-toast-show { bottom: 24px; }
+.tv-toast-success { background: #16a34a; color: #fff; }
+.tv-toast-error { background: #dc2626; color: #fff; }
+.tv-toast-info { background: #2563eb; color: #fff; }
+.tv-toast-icon { font-size: 16px; }
+.tv-toast-msg { overflow: hidden; text-overflow: ellipsis; }
+
+/* ===== Newsletter Enhanced ===== */
+.newsletter-benefits { display: flex; gap: 20px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap; }
+.newsletter-benefit { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.4); }
+.newsletter-benefit-icon { color: #25f4ee; font-size: 14px; }
+
+/* ===== Mobile Card Layout for Tables ===== */
+@media (max-width: 640px) {
+  .data-table-wrap { overflow-x: visible; }
+  .data-table { display: block; }
+  .data-table thead { display: none; }
+  .data-table tbody { display: flex; flex-direction: column; gap: 8px; }
+  .data-table tr {
+    display: flex; flex-wrap: wrap; gap: 4px 12px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 14px 16px; position: relative;
+  }
+  .data-table tr:hover { background: rgba(255,255,255,0.05); }
+  .data-table td {
+    border-bottom: none; padding: 2px 0; white-space: normal;
+    font-size: 12px;
+  }
+  .data-table td:first-child { position: absolute; top: 14px; right: 16px; }
+  .data-table td:nth-child(2) { width: 100%; font-size: 14px; font-weight: 600; color: #fff; padding-right: 40px; }
+  .data-table td.revenue { color: #25f4ee; font-size: 15px; }
+  .data-table td::before {
+    content: attr(data-label);
+    font-size: 10px; color: rgba(255,255,255,0.3); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    margin-right: 6px;
+  }
+  .data-table .locked-row { opacity: 0.6; }
+  .product-name-cell { max-width: none !important; }
+}
+
+/* ===== Skip to Content (A11y) ===== */
+.skip-link {
+  position: absolute; top: -100%; left: 50%; transform: translateX(-50%);
+  background: #fe2c55; color: #fff; padding: 8px 20px; border-radius: 0 0 8px 8px;
+  font-size: 13px; font-weight: 600; z-index: 200; text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* ===== Focus Styles (A11y) ===== */
+:focus-visible {
+  outline: 2px solid #25f4ee;
+  outline-offset: 2px;
+}
+.btn:focus-visible { box-shadow: 0 0 0 3px rgba(37,244,238,0.4); }
+.nav-link:focus-visible { outline: 2px solid #25f4ee; outline-offset: 2px; }
+.chip:focus-visible { outline: 2px solid #25f4ee; outline-offset: 2px; }
+
+/* ===== Subscription Status Badge ===== */
+.sub-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.sub-badge-pro { background: rgba(34,197,94,0.15); color: #22c55e; }
+.sub-badge-insider { background: rgba(139,92,246,0.15); color: #a78bfa; }
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .nav { display: none; }
@@ -521,4 +634,7 @@ body {
   .pricing-grid { grid-template-columns: 1fr; }
   .comparison-table-wrap { font-size: 12px; }
   .page-hero h1 { font-size: 26px; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .newsletter-benefits { flex-direction: column; align-items: center; gap: 8px; }
 }
