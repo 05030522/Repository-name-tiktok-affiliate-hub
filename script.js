@@ -1,15 +1,12 @@
-// ===== TrendVault Script — Enhanced v2.0 =====
+// ===== TrendVault Script — v3.0 (Server Auth) =====
 
 // ===== Configuration =====
-// Google Sheets URL — Replace with your deployed Apps Script URL
 const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxPRrxO1oX34xRMxVyJxHO303cpLu34DDDVqaGeoxcIUQvL-ZzkdI9pZg7SmdCGuPe7/exec';
-
-// Google Analytics 4 — Replace with your Measurement ID
 const GA_MEASUREMENT_ID = 'G-PSW1MY7HB4';
 
 // ===== Google Analytics Setup =====
 (function initGA() {
-  if (GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return; // Skip if not configured
+  if (GA_MEASUREMENT_ID === 'G-XXXXXXXXXX') return;
   const script = document.createElement('script');
   script.async = true;
   script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
@@ -22,7 +19,6 @@ const GA_MEASUREMENT_ID = 'G-PSW1MY7HB4';
 
 // ===== Toast Notification System =====
 function showToast(message, type = 'success', duration = 3000) {
-  // Remove existing toast
   const existing = document.querySelector('.tv-toast');
   if (existing) existing.remove();
 
@@ -33,42 +29,112 @@ function showToast(message, type = 'success', duration = 3000) {
     <span class="tv-toast-msg">${message}</span>
   `;
   document.body.appendChild(toast);
-
-  // Trigger animation
   requestAnimationFrame(() => toast.classList.add('tv-toast-show'));
-
   setTimeout(() => {
     toast.classList.remove('tv-toast-show');
     setTimeout(() => toast.remove(), 300);
   }, duration);
 }
 
-// ===== Subscription State Management =====
-const SubscriptionManager = {
-  TIERS: { FREE: 'free', PRO: 'pro', INSIDER: 'insider' },
+// ===== Auth Manager (Server-based) =====
+const AuthManager = {
+  _state: { authenticated: false, email: null, tier: 'free' },
 
-  getTier() {
-    return localStorage.getItem('tv_subscription_tier') || this.TIERS.FREE;
-  },
-
-  setTier(tier) {
-    localStorage.setItem('tv_subscription_tier', tier);
-    localStorage.setItem('tv_subscription_date', new Date().toISOString());
+  async init() {
+    try {
+      const res = await fetch('/api/auth/me', { credentials: 'include' });
+      if (res.ok) {
+        this._state = await res.json();
+      }
+    } catch (e) {
+      this._state = { authenticated: false, email: null, tier: 'free' };
+    }
     this.applyTier();
+    this.updateNavUI();
+    this.checkPaymentReturn();
   },
 
   isPro() {
-    const tier = this.getTier();
-    return tier === this.TIERS.PRO || tier === this.TIERS.INSIDER;
+    return this._state.tier === 'pro' || this._state.tier === 'insider';
   },
 
   isInsider() {
-    return this.getTier() === this.TIERS.INSIDER;
+    return this._state.tier === 'insider';
+  },
+
+  isAuthenticated() {
+    return this._state.authenticated;
+  },
+
+  getEmail() {
+    return this._state.email;
+  },
+
+  getTier() {
+    return this._state.tier;
+  },
+
+  async sendCode(email) {
+    const res = await fetch('/api/auth/send-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+      credentials: 'include'
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to send code');
+    return data;
+  },
+
+  async verifyCode(email, code) {
+    const res = await fetch('/api/auth/verify-code', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code }),
+      credentials: 'include'
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Verification failed');
+    this._state = { authenticated: true, email: data.email, tier: data.tier };
+    this.applyTier();
+    this.updateNavUI();
+    await this.loadFullData();
+    return data;
+  },
+
+  async logout() {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+    } catch (e) {}
+    this._state = { authenticated: false, email: null, tier: 'free' };
+    this.updateNavUI();
+    showToast('Logged out successfully.', 'info');
+    setTimeout(() => window.location.reload(), 1000);
+  },
+
+  async loadFullData() {
+    if (!this.isPro()) return;
+    try {
+      const res = await fetch('/api/data', { credentials: 'include' });
+      if (!res.ok) return;
+      const data = await res.json();
+      // Re-render tables with full data if render functions exist
+      if (data.brands && typeof renderBrandsFromData === 'function') {
+        renderBrandsFromData('brandsContainer', data.brands);
+      }
+      if (data.categories && typeof renderCategoriesFromData === 'function') {
+        renderCategoriesFromData('categoriesContainer', data.categories);
+      }
+      if (data.products && typeof renderProductsFromData === 'function') {
+        renderProductsFromData('productsContainer', data.products);
+      }
+    } catch (e) {
+      console.warn('Failed to load full data:', e);
+    }
   },
 
   applyTier() {
-    const tier = this.getTier();
-    if (tier === this.TIERS.FREE) return;
+    if (!this.isPro()) return;
 
     // Unlock locked rows in data tables
     document.querySelectorAll('.locked-row').forEach(row => {
@@ -107,35 +173,185 @@ const SubscriptionManager = {
       card.classList.add('free');
     });
 
-    // Hide unlock banners and paywall triggers
+    // Hide unlock banners
     document.querySelectorAll('.unlock-banner').forEach(el => el.style.display = 'none');
+  },
 
-    // Update Go Pro button in nav
+  updateNavUI() {
     const proCta = document.querySelector('.nav-cta');
-    if (proCta) {
-      proCta.textContent = tier === 'insider' ? '⭐ Insider' : '✓ Pro';
-      proCta.style.background = '#22c55e';
-      proCta.href = 'intelligence.html';
-    }
+    if (!proCta) return;
 
-    // Track with GA
-    if (window.gtag) {
-      gtag('event', 'subscription_active', { tier: tier });
+    if (this._state.authenticated) {
+      if (this.isPro()) {
+        proCta.textContent = this._state.tier === 'insider' ? '⭐ Insider' : '✓ Pro';
+        proCta.style.background = '#22c55e';
+        proCta.href = '#';
+        proCta.onclick = (e) => { e.preventDefault(); showAccountMenu(); };
+      } else {
+        proCta.textContent = 'Go Pro';
+        proCta.href = 'pricing.html';
+      }
+    } else {
+      proCta.textContent = 'Go Pro';
+      proCta.href = 'pricing.html';
     }
   },
 
-  // Check URL params for subscription confirmation (from Lemon Squeezy redirect)
-  checkActivation() {
+  checkPaymentReturn() {
     const params = new URLSearchParams(window.location.search);
-    const plan = params.get('plan');
-    if (plan && ['pro', 'insider'].includes(plan)) {
-      this.setTier(plan);
-      showToast(`Welcome to TrendVault ${plan.charAt(0).toUpperCase() + plan.slice(1)}! All content is now unlocked.`, 'success', 5000);
-      // Clean URL
+    if (params.get('payment') === 'success') {
+      showToast('Payment successful! Log in with your email to unlock all content.', 'success', 6000);
+      showLoginModal();
       window.history.replaceState({}, '', window.location.pathname);
     }
   }
 };
+
+// ===== Login Modal =====
+function createLoginModal() {
+  if (document.getElementById('loginModal')) return;
+
+  const modal = document.createElement('div');
+  modal.id = 'loginModal';
+  modal.className = 'modal';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width:380px">
+      <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+      <h2 style="margin-bottom:6px">Sign In</h2>
+      <p style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:20px">Enter your email to receive a login code</p>
+
+      <div id="loginStep1">
+        <input type="email" id="loginEmail" placeholder="your@email.com" class="email-input" style="width:100%;margin-bottom:12px" aria-label="Email address">
+        <button onclick="handleSendCode()" class="btn btn-primary btn-full" id="sendCodeBtn">Send Login Code</button>
+      </div>
+
+      <div id="loginStep2" style="display:none">
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:14px">Code sent to <strong id="loginEmailDisplay" style="color:#fff"></strong></p>
+        <input type="text" id="loginCode" placeholder="Enter 6-digit code" class="email-input" style="width:100%;margin-bottom:12px;text-align:center;font-size:20px;letter-spacing:6px" maxlength="6" aria-label="Verification code">
+        <button onclick="handleVerifyCode()" class="btn btn-primary btn-full" id="verifyCodeBtn">Verify & Sign In</button>
+        <button onclick="resetLoginModal()" style="background:none;border:none;color:rgba(255,255,255,0.3);font-size:12px;cursor:pointer;margin-top:10px;display:block;width:100%;text-align:center">Use a different email</button>
+      </div>
+
+      <p style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:16px">No password needed. We'll email you a code.</p>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === this) closeLoginModal();
+  });
+}
+
+function showLoginModal() {
+  createLoginModal();
+  document.getElementById('loginModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('loginEmail').focus();
+  if (window.gtag) gtag('event', 'login_modal_shown');
+}
+
+function closeLoginModal() {
+  const modal = document.getElementById('loginModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function resetLoginModal() {
+  document.getElementById('loginStep1').style.display = 'block';
+  document.getElementById('loginStep2').style.display = 'none';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginCode').value = '';
+}
+
+async function handleSendCode() {
+  const emailInput = document.getElementById('loginEmail');
+  const email = emailInput.value.trim();
+  const btn = document.getElementById('sendCodeBtn');
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showToast('Please enter a valid email address.', 'error');
+    return;
+  }
+
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    await AuthManager.sendCode(email);
+    document.getElementById('loginStep1').style.display = 'none';
+    document.getElementById('loginStep2').style.display = 'block';
+    document.getElementById('loginEmailDisplay').textContent = email;
+    document.getElementById('loginCode').focus();
+    showToast('Code sent! Check your email.', 'success');
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    btn.textContent = 'Send Login Code';
+    btn.disabled = false;
+  }
+}
+
+async function handleVerifyCode() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const code = document.getElementById('loginCode').value.trim();
+  const btn = document.getElementById('verifyCodeBtn');
+
+  if (!code || code.length !== 6) {
+    showToast('Please enter the 6-digit code.', 'error');
+    return;
+  }
+
+  btn.textContent = 'Verifying...';
+  btn.disabled = true;
+
+  try {
+    const result = await AuthManager.verifyCode(email, code);
+    closeLoginModal();
+    if (result.tier === 'pro' || result.tier === 'insider') {
+      showToast(`Welcome back! You have ${result.tier.charAt(0).toUpperCase() + result.tier.slice(1)} access.`, 'success', 5000);
+    } else {
+      showToast('Signed in successfully!', 'success');
+    }
+    if (window.gtag) gtag('event', 'login', { tier: result.tier });
+  } catch (err) {
+    showToast(err.message, 'error');
+    btn.textContent = 'Verify & Sign In';
+    btn.disabled = false;
+  }
+}
+
+// ===== Account Menu =====
+function showAccountMenu() {
+  const email = AuthManager.getEmail();
+  const tier = AuthManager.getTier();
+
+  if (document.querySelector('.account-dropdown')) {
+    document.querySelector('.account-dropdown').remove();
+    return;
+  }
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'account-dropdown';
+  dropdown.innerHTML = `
+    <div style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="font-size:13px;font-weight:600;color:#fff">${email}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px">${tier.charAt(0).toUpperCase() + tier.slice(1)} Member</div>
+    </div>
+    <button onclick="AuthManager.logout();document.querySelector('.account-dropdown')?.remove()" style="width:100%;padding:10px 18px;background:none;border:none;color:#fe2c55;font-size:13px;cursor:pointer;text-align:left">Sign Out</button>
+  `;
+  document.querySelector('.header .container').appendChild(dropdown);
+
+  setTimeout(() => {
+    document.addEventListener('click', function closeDropdown(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.remove();
+        document.removeEventListener('click', closeDropdown);
+      }
+    });
+  }, 10);
+}
 
 // ===== Mobile Menu =====
 function toggleMenu() {
@@ -163,11 +379,7 @@ function filterProducts(category) {
     const cat = card.dataset.category;
     card.style.display = (category === 'all' || cat === category || cat === 'all') ? 'flex' : 'none';
   });
-
-  // Track filter usage
-  if (window.gtag) {
-    gtag('event', 'filter_products', { category: category });
-  }
+  if (window.gtag) gtag('event', 'filter_products', { category });
 }
 
 // ===== Paywall Modal =====
@@ -176,13 +388,7 @@ function showPaywall() {
   if (!modal) return;
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
-  // Focus trap
-  const firstBtn = modal.querySelector('button, a, input');
-  if (firstBtn) firstBtn.focus();
-  // Track
-  if (window.gtag) {
-    gtag('event', 'paywall_shown', { page: window.location.pathname });
-  }
+  if (window.gtag) gtag('event', 'paywall_shown', { page: window.location.pathname });
 }
 
 function closePaywall() {
@@ -192,19 +398,18 @@ function closePaywall() {
   document.body.style.overflow = '';
 }
 
-// Close modal on backdrop click
 document.getElementById('paywallModal')?.addEventListener('click', function(e) {
   if (e.target === this) closePaywall();
 });
 
-// Close modal on Escape key
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     closePaywall();
+    closeLoginModal();
   }
 });
 
-// ===== Payment Handler (Lemon Squeezy) =====
+// ===== Payment Handler =====
 function handlePayment() {
   const planInput = document.querySelector('input[name="plan"]:checked');
   if (!planInput) {
@@ -212,16 +417,25 @@ function handlePayment() {
     return;
   }
   const plan = planInput.value;
-  const links = {
+  const baseLinks = {
     monthly: 'https://shoptrendinsider.lemonsqueezy.com/checkout/buy/2b9e60f6-1124-4d2d-9e50-2861a28be774',
     yearly: 'https://shoptrendinsider.lemonsqueezy.com/checkout/buy/3f8736de-7a87-49ea-af15-97e28bc7d7a9',
     insider: 'https://shoptrendinsider.lemonsqueezy.com/checkout/buy/69866d10-2fac-4f3c-8791-92b9edd53dde'
   };
-  // Track conversion
-  if (window.gtag) {
-    gtag('event', 'begin_checkout', { plan: plan });
+
+  let url = baseLinks[plan];
+
+  // Add redirect URL
+  const redirectUrl = window.location.origin + '/pricing.html?payment=success';
+  url += '?checkout[custom][redirect_url]=' + encodeURIComponent(redirectUrl);
+
+  // Prefill email if logged in
+  if (AuthManager.isAuthenticated()) {
+    url += '&checkout[email]=' + encodeURIComponent(AuthManager.getEmail());
   }
-  window.open(links[plan], '_blank');
+
+  if (window.gtag) gtag('event', 'begin_checkout', { plan });
+  window.open(url, '_blank');
 }
 
 // ===== Email Signup =====
@@ -232,48 +446,26 @@ function handleEmailSubmit(e) {
   const submitBtn = e.target.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
 
-  // Validation
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showToast('Please enter a valid email address.', 'error');
     return;
   }
 
-  // Check duplicate
   const subscribers = JSON.parse(localStorage.getItem('trendvault_subscribers') || '[]');
   if (subscribers.some(s => s.email === email)) {
-    showToast('You\'re already subscribed! Check your inbox for weekly updates.', 'info');
+    showToast('You\'re already subscribed!', 'info');
     emailInput.value = '';
     return;
   }
 
-  // Loading state
   submitBtn.textContent = 'Subscribing...';
   submitBtn.disabled = true;
   submitBtn.style.opacity = '0.7';
 
   const subscribeData = { email, date: new Date().toISOString(), source: window.location.pathname };
-
-  // Store locally (always, as backup)
   subscribers.push(subscribeData);
   localStorage.setItem('trendvault_subscribers', JSON.stringify(subscribers));
 
-  if (GOOGLE_SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-    // Local-only mode
-    setTimeout(() => {
-      showToast('Welcome! You\'ll receive weekly trend insights every Monday.', 'success');
-      emailInput.value = '';
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-      submitBtn.style.opacity = '';
-    }, 600);
-
-    if (window.gtag) {
-      gtag('event', 'subscribe', { method: 'local' });
-    }
-    return;
-  }
-
-  // Send to Google Sheets
   fetch(GOOGLE_SHEET_URL, {
     method: 'POST',
     mode: 'no-cors',
@@ -281,15 +473,12 @@ function handleEmailSubmit(e) {
     body: JSON.stringify(subscribeData)
   })
   .then(() => {
-    showToast('Welcome! You\'ll receive weekly trend insights every Monday.', 'success');
+    showToast('Welcome! Weekly insights every Monday.', 'success');
     emailInput.value = '';
-    if (window.gtag) {
-      gtag('event', 'subscribe', { method: 'google_sheets' });
-    }
+    if (window.gtag) gtag('event', 'subscribe');
   })
-  .catch((err) => {
-    showToast('Subscription saved! You\'re all set.', 'success');
-    console.warn('Google Sheets sync failed (saved locally):', err);
+  .catch(() => {
+    showToast('Subscribed! You\'re all set.', 'success');
   })
   .finally(() => {
     submitBtn.textContent = originalText;
@@ -313,7 +502,6 @@ function handleContactSubmit(e) {
     date: new Date().toISOString()
   };
 
-  // Validation
   if (!data.name || !data.email || !data.message) {
     showToast('Please fill in all required fields.', 'error');
     return;
@@ -324,30 +512,13 @@ function handleContactSubmit(e) {
     return;
   }
 
-  if (data.message.length < 10) {
-    showToast('Please write a longer message (at least 10 characters).', 'error');
-    return;
-  }
-
   submitBtn.textContent = 'Sending...';
   submitBtn.disabled = true;
   submitBtn.style.opacity = '0.7';
 
-  // Store locally always
   const messages = JSON.parse(localStorage.getItem('trendvault_contacts') || '[]');
   messages.push(data);
   localStorage.setItem('trendvault_contacts', JSON.stringify(messages));
-
-  if (GOOGLE_SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-    setTimeout(() => {
-      showToast('Message sent! We\'ll reply within 24 hours.', 'success');
-      form.reset();
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-      submitBtn.style.opacity = '';
-    }, 600);
-    return;
-  }
 
   fetch(GOOGLE_SHEET_URL, {
     method: 'POST',
@@ -359,9 +530,8 @@ function handleContactSubmit(e) {
     showToast('Message sent! We\'ll reply within 24 hours.', 'success');
     form.reset();
   })
-  .catch((err) => {
+  .catch(() => {
     showToast('Message saved! We\'ll get back to you soon.', 'success');
-    console.warn('Google Sheets sync failed (saved locally):', err);
   })
   .finally(() => {
     submitBtn.textContent = originalText;
@@ -383,19 +553,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    // Close mobile menu
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     const nav = document.getElementById('mainNav');
     if (nav && window.innerWidth <= 768) {
       nav.classList.remove('nav-open');
       nav.style.cssText = '';
       const btn = document.querySelector('.mobile-menu');
-      if (btn) {
-        btn.textContent = '☰';
-        btn.setAttribute('aria-expanded', 'false');
-      }
+      if (btn) { btn.textContent = '☰'; btn.setAttribute('aria-expanded', 'false'); }
     }
   });
 });
@@ -403,33 +567,21 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ===== Header scroll shadow =====
 window.addEventListener('scroll', () => {
   const header = document.querySelector('.header');
-  if (header) {
-    header.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.3)' : 'none';
-  }
+  if (header) header.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.3)' : 'none';
 });
 
 // ===== Tab Switching =====
 function switchTab(tabName) {
-  // Hide all tabs
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  // Show selected
   const tab = document.getElementById('tab-' + tabName);
   if (tab) tab.classList.add('active');
-  // Highlight button
   if (event && event.target) event.target.classList.add('active');
-  // Scroll to top of content
   const tabNav = document.querySelector('.tab-nav');
-  if (tabNav) {
-    window.scrollTo({ top: tabNav.offsetTop - 64, behavior: 'smooth' });
-  }
-  // Track
-  if (window.gtag) {
-    gtag('event', 'tab_switch', { tab: tabName });
-  }
+  if (tabNav) window.scrollTo({ top: tabNav.offsetTop - 64, behavior: 'smooth' });
+  if (window.gtag) gtag('event', 'tab_switch', { tab: tabName });
 }
 
-// Handle hash-based tab switching
 window.addEventListener('load', () => {
   const hash = window.location.hash.replace('#', '').replace('tab-', '');
   if (hash && document.getElementById('tab-' + hash)) {
@@ -446,41 +598,26 @@ window.addEventListener('load', () => {
 function toggleFaq(btn) {
   const answer = btn.nextElementSibling;
   const isOpen = answer.classList.contains('open');
-  // Close all
   document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
-  document.querySelectorAll('.faq-q').forEach(q => {
-    q.classList.remove('open');
-    q.setAttribute('aria-expanded', 'false');
-  });
-  // Open clicked (if was closed)
-  if (!isOpen) {
-    answer.classList.add('open');
-    btn.classList.add('open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
+  document.querySelectorAll('.faq-q').forEach(q => { q.classList.remove('open'); q.setAttribute('aria-expanded', 'false'); });
+  if (!isOpen) { answer.classList.add('open'); btn.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
 }
 
 // ===== Initialization =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Check subscription activation from URL params
-  SubscriptionManager.checkActivation();
-  // Apply current subscription tier
-  SubscriptionManager.applyTier();
+  AuthManager.init();
 
-  // Add ARIA attributes to mobile menu button
   const mobileBtn = document.querySelector('.mobile-menu');
   if (mobileBtn) {
     mobileBtn.setAttribute('aria-label', 'Toggle navigation menu');
     mobileBtn.setAttribute('aria-expanded', 'false');
   }
 
-  // Add ARIA to FAQ buttons
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.setAttribute('role', 'button');
     btn.setAttribute('aria-expanded', 'false');
   });
 
-  // Lazy load images if any exist
   if ('IntersectionObserver' in window) {
     const lazyImages = document.querySelectorAll('img[data-src]');
     const observer = new IntersectionObserver((entries) => {
@@ -496,7 +633,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lazyImages.forEach(img => observer.observe(img));
   }
 
-  // Track page view
   if (window.gtag) {
     gtag('event', 'page_view', {
       page_title: document.title,
@@ -506,17 +642,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ===== Dev Mode: Quick tier switching for testing =====
-// Usage in console: TrendVault.setTier('pro') or TrendVault.setTier('free')
+// ===== Global API =====
 window.TrendVault = {
-  setTier: (tier) => {
-    SubscriptionManager.setTier(tier);
-    showToast(`Tier set to: ${tier}. Refresh to see full changes.`, 'info');
-  },
-  getTier: () => SubscriptionManager.getTier(),
-  reset: () => {
-    localStorage.removeItem('tv_subscription_tier');
-    localStorage.removeItem('tv_subscription_date');
-    showToast('Subscription reset to Free. Refresh page.', 'info');
-  }
+  login: () => showLoginModal(),
+  logout: () => AuthManager.logout(),
+  status: () => console.log(AuthManager._state)
 };
